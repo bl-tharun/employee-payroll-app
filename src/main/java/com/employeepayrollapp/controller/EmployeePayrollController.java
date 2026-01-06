@@ -1,37 +1,57 @@
 package com.employeepayrollapp.controller;
 
-import com.employeepayrollapp.model.Employee;
+import com.employeepayrollapp.dto.EmployeePayrollDto;
+import com.employeepayrollapp.service.EmployeePayrollService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
-@RequestMapping("/emp")
+@RequestMapping("/employeepayrollservice")
 public class EmployeePayrollController {
-    private static final AtomicLong counter = new AtomicLong();
 
-    @GetMapping("/get")
-    public String testGet() {
-        return "Hello world";
+    @Autowired
+    private EmployeePayrollService service;
+
+    @RequestMapping(value = {"", "/", "/get"})
+    public ResponseEntity<String> getEmployeePayrollData() {
+        return new ResponseEntity<>("Get call success", HttpStatus.OK);
     }
 
-    @PostMapping("/post")
-    public Employee testPost(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Employee(counter.incrementAndGet(), name);
+    @GetMapping("/getall")
+    public ResponseEntity<List<EmployeePayrollDto>> getAll() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
-    @PutMapping("/put/{id}")
-    public String testPut(
-            @PathVariable Long id,
-            @RequestBody Employee employee
+    @GetMapping("/get/{empId}")
+    public ResponseEntity<String> getEmployeePayrollData(@PathVariable int empId) {
+        String response = service.getEmployee(empId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<String> addEmployeePayrollData(
+            @RequestBody EmployeePayrollDto employeePayrollDto
     ) {
-        return "Employee " + id + " updated with name: " + employee.getName();
+        String response = service.addEmployee(employeePayrollDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String testDelete(@PathVariable Long id) {
-        return "Employee " + id + " got yeeted!";
+    @PutMapping("/update/{empId}")
+    public ResponseEntity<String> updateEmployeePayrollData(
+            @PathVariable int empId,
+            @RequestBody EmployeePayrollDto employeePayrollDto
+    ) {
+        String response = service.updateEmployee(empId, employeePayrollDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{empId}")
+    public ResponseEntity<String> deleteEmployeePayrollData(@PathVariable int empId) {
+        service.deleteEmployee(empId);
+        return new ResponseEntity<>("Deleted employee with id " + empId, HttpStatus.OK);
+    }
 }

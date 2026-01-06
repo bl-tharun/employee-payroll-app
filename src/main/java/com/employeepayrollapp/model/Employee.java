@@ -1,23 +1,25 @@
 package com.employeepayrollapp.model;
 
-import java.time.LocalDate;
-
 public class Employee {
-    private Long id;
+    private int employeeId;
     private String name;
-    private Character gender;
-    private Double salary;
-    private LocalDate startDate;
+    private long salary;
 
     public Employee() {
     }
 
-    public Long getId() {
-        return id;
+    public Employee(int employeeId, String name, long salary) {
+        this.employeeId = employeeId;
+        this.name = name;
+        this.salary = salary;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getName() {
@@ -28,27 +30,11 @@ public class Employee {
         this.name = name;
     }
 
-    public Character getGender() {
-        return gender;
-    }
-
-    public void setGender(Character gender) {
-        this.gender = gender;
-    }
-
-    public Double getSalary() {
+    public long getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
+    public void setSalary(long salary) {
         this.salary = salary;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
     }
 }
