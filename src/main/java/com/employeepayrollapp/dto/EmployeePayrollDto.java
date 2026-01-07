@@ -1,35 +1,21 @@
 package com.employeepayrollapp.dto;
 
-public class EmployeePayrollDto {
+import lombok.Data;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+
+public @Data class EmployeePayrollDto {
+
     private int empId;
+
+    @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message = "Employee name Invalid")
     private String name;
 
-    public EmployeePayrollDto() {
-    }
-
-    public EmployeePayrollDto(int empId, String name) {
-        this.empId = empId;
-        this.name = name;
-    }
+    @Min(value = 500, message = "Min wage should be more than 500")
+    private long salary;
 
     @Override
     public String toString() {
-        return "id="+empId+":name="+name;
-    }
-
-    public int getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(int empId) {
-        this.empId = empId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return "name="+name+":salary"+salary;
     }
 }
