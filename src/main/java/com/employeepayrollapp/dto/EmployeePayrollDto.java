@@ -4,18 +4,22 @@ import lombok.Data;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public @Data class EmployeePayrollDto {
 
-    private int empId;
+    public int empId;
 
     @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message = "Employee name Invalid")
-    private String name;
+    public String name;
 
     @Min(value = 500, message = "Min wage should be more than 500")
-    private long salary;
+    public long salary;
 
-    @Override
-    public String toString() {
-        return "name="+name+":salary"+salary;
-    }
+    public String gender;
+    public LocalDate startDate;
+    public String note;
+    public String profilePic;
+    public List<String> departments;
 }
