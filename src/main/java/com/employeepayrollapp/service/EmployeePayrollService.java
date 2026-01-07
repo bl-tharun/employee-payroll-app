@@ -2,6 +2,7 @@ package com.employeepayrollapp.service;
 
 import com.employeepayrollapp.dto.EmployeePayrollDto;
 import com.employeepayrollapp.dto.ResponseDto;
+import com.employeepayrollapp.exception.EmployeePayrollException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,10 +19,9 @@ public class EmployeePayrollService {
 
     public ResponseDto getEmployee(int empId) {
         EmployeePayrollDto data = empList.stream().filter(emp -> emp.getEmpId() == empId)
-                .findAny().orElse(null);
-        if (data != null)
-            return new ResponseDto("Found employee by id " + empId, data);
-        return new ResponseDto("Not found", null);
+                .findFirst()
+                .orElseThrow(() -> new EmployeePayrollException("Employee not found"));
+        return new ResponseDto("Here you go", data);
     }
 
     public ResponseDto updateEmployee(int empId, EmployeePayrollDto updated) {
