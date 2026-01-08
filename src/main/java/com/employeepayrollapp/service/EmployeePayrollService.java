@@ -11,22 +11,28 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EmployeePayrollService {
+public class EmployeePayrollService implements IEmployeePayrollService{
     @Autowired
     private EmployeePayrollRepository repository;
 
-    public ResponseDto addEmployee(EmployeePayrollDto employeePayrollDto) {
-        Employee empData = new Employee(employeePayrollDto);
-        return new ResponseDto("Employee added successfully!", repository.save(empData));
+    @Override
+    public Employee createEmployeePayrollData(EmployeePayrollDto employeePayrollDto) {
+        return new Employee(employeePayrollDto);
     }
 
-    public ResponseDto getEmployee(int empId) {
-        Employee data = repository.findById(empId)
+    @Override
+    public Employee getEmployeePayrollDataById(int empId) {
+        return repository.findById(empId)
                 .orElseThrow(() -> new EmployeePayrollException("Employee Not Found"));
-        return new ResponseDto("Here you go", data);
     }
 
-    public ResponseDto updateEmployee(int empId, EmployeePayrollDto updated) {
+    @Override
+    public List<Employee> getEmployeesByDepartment(String department) {
+        return repository.findEmployeeByDepartment(department);
+    }
+
+    @Override
+    public Employee updateEmployeePayrollData(int empId, EmployeePayrollDto updated) {
         Employee old = repository.findById(empId)
                 .orElseThrow(() -> new EmployeePayrollException("Employee Not Found"));
         old.setName(updated.name);
@@ -36,17 +42,18 @@ public class EmployeePayrollService {
         old.setNote(updated.note);
         old.setProfilePic(updated.profilePic);
         old.setStartDate(updated.startDate);
-        return new ResponseDto("Updated!", old);
+        return old;
     }
 
-    public void deleteEmployee(int empId) {
+    @Override
+    public void deleteEmployeePayrollData(int empId) {
         Employee data = repository.findById(empId)
                 .orElseThrow(() -> new EmployeePayrollException("Employee Not Found"));
         repository.delete(data);
     }
 
-    public ResponseDto getAll() {
-        List<Employee> all = repository.findAll();
-        return new ResponseDto("Gotcha!", all);
+    @Override
+    public List<Employee> getEmployeePayrollData() {
+        return repository.findAll();
     }
 }
