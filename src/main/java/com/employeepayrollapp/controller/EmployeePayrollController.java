@@ -18,14 +18,14 @@ public class EmployeePayrollController {
     @Autowired
     private EmployeePayrollService service;
 
-    @GetMapping("/getall")
-    public ResponseEntity<List<EmployeePayrollDto>> getAll() {
-        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
-    }
-
     @GetMapping("/get/{empId}")
     public ResponseEntity<ResponseDto> getEmployeePayrollDataById(@PathVariable int empId) {
         return new ResponseEntity<>(service.getEmployee(empId), HttpStatus.OK);
+    }
+
+    @GetMapping("/getall")
+    public ResponseEntity<ResponseDto> getAll() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @PostMapping("/create")
