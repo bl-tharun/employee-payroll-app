@@ -49,6 +49,11 @@ public final class Payslip implements Cloneable {
         this(null, null, month, 0.0, employee, components);
     }
 
+    // Constructor used for Dashboard App
+    public Payslip(String month, double netPay) {
+        this(null, null, month, netPay);
+    }
+
     /*
      * Only getters are provided.
      *
