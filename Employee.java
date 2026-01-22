@@ -35,6 +35,11 @@ public class Employee {
         this.account = account;
     }
 
+    public Employee(String empId, String name) {
+        this.empId = empId;
+        this.name = name;
+    }
+
     /*
      * Converts Employee data into a readable format.
      *
@@ -62,5 +67,13 @@ public class Employee {
         FileWriter writer = new FileWriter("employee_data.txt", true);
         writer.write(empId + "," + name + "," + email + "," + phone + "," + account.getUsername() + "\n");
         writer.close();
+    }
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public String getName() {
+        return name;
     }
 }
